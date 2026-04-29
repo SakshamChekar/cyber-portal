@@ -1,0 +1,93 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+      <i class="bi bi-shield-lock-fill me-1"></i> Cyber Portal
+    </a>
+
+    <!-- Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'index' %}active-nav{% endif %}" 
+             href="{{ url_for('index') }}">
+            Home
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'awareness' %}active-nav{% endif %}" 
+             href="{{ url_for('awareness') }}">
+            Awareness
+          </a>
+        </li>
+
+        {% if 'user_id' in session %}
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'report' %}active-nav{% endif %}" 
+             href="{{ url_for('report') }}">
+            Report
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'my_reports' %}active-nav{% endif %}" 
+             href="{{ url_for('my_reports') }}">
+            My Reports
+          </a>
+        </li>
+
+        {% if session.get('role') == 'admin' %}
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'admin_reports' %}active-nav{% endif %}" 
+             href="{{ url_for('admin_reports') }}">
+            Admin
+          </a>
+        </li>
+        {% endif %}
+
+        <!-- Logout Button -->
+        <li class="nav-item">
+          <a class="btn btn-outline-danger btn-sm ms-lg-2" href="{{ url_for('logout') }}">
+            Logout
+          </a>
+        </li>
+
+        {% else %}
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'login' %}active-nav{% endif %}" 
+             href="{{ url_for('login') }}">
+            Login
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="btn btn-primary btn-sm ms-lg-2" href="{{ url_for('register') }}">
+            Register
+          </a>
+        </li>
+
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'contact' %}active-nav{% endif %}" 
+             href="{{ url_for('contact') }}">
+            Contact
+          </a>
+        </li>
+
+      </ul>
+    </div>
+
+  </div>
+</nav>

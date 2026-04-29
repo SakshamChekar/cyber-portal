@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<div class="text-center py-5">
+    <h1 class="display-4 fw-bold">Cyber Security Portal</h1>
+    <p class="text-muted fs-5 mb-4">
+        Report incidents, stay aware, and protect yourself in the digital world.
+    </p>
+
+    <!-- CTA Buttons -->
+    <div class="d-flex justify-content-center gap-3">
+        <a href="{{ url_for('report') }}" class="btn btn-danger px-4">
+            Report Now
+        </a>
+        <a href="{{ url_for('awareness') }}" class="btn btn-outline-primary px-4">
+            Learn More
+        </a>
+    </div>
+</div>
+
+<!-- MAIN FEATURES -->
+<div class="row g-4 mt-4">
+
+    <!-- REPORT -->
+    <div class="col-md-6">
+        <div class="card p-4 h-100 text-center feature-card">
+
+            <div class="mb-3">
+                <i class="bi bi-exclamation-triangle feature-icon text-danger"></i>
+            </div>
+
+            <h4 class="fw-semibold">Report Incident</h4>
+
+            <p class="text-muted">
+                Quickly report cyber threats, scams, or suspicious activities and help others stay safe.
+            </p>
+
+            <a href="{{ url_for('report') }}" class="btn btn-danger mt-2">
+                Report Now
+            </a>
+
+        </div>
+    </div>
+
+    <!-- AWARENESS -->
+    <div class="col-md-6">
+        <div class="card p-4 h-100 text-center feature-card">
+
+            <div class="mb-3">
+                <i class="bi bi-shield-lock feature-icon text-primary"></i>
+            </div>
+
+            <h4 class="fw-semibold">Stay Aware</h4>
+
+            <p class="text-muted">
+                Learn about cyber threats and how to protect yourself with real awareness content.
+            </p>
+
+            <a href="{{ url_for('awareness') }}" class="btn btn-primary mt-2">
+                Explore
+            </a>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- EXTRA INFO -->
+<div class="row mt-5 text-center">
+
+    <div class="col-md-4">
+        <div class="p-3">
+            <i class="bi bi-lock fs-2 text-primary mb-2"></i>
+            <h6 class="fw-semibold">Secure Platform</h6>
+            <p class="text-muted small">
+                Your reports are handled safely and confidentially.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="p-3">
+            <i class="bi bi-lightning-charge fs-2 text-warning mb-2"></i>
+            <h6 class="fw-semibold">Fast Reporting</h6>
+            <p class="text-muted small">
+                Submit incidents quickly with a simple and smooth process.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="p-3">
+            <i class="bi bi-megaphone fs-2 text-success mb-2"></i>
+            <h6 class="fw-semibold">Awareness</h6>
+            <p class="text-muted small">
+                Stay updated with latest cyber security tips and knowledge.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

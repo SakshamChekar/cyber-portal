@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}My Reports{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <h3 class="fw-bold">My Reports</h3>
+        <p class="text-muted">Track and manage your submitted reports</p>
+    </div>
+
+    {% if reports %}
+    <div class="card p-3">
+
+        <div class="table-responsive">
+            <table class="table align-middle">
+
+                <thead>
+                    <tr>
+                        {% if session.get('role') == 'admin' %}
+                            <th>User</th>
+                        {% endif %}
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Attachment</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+
+                        {% if session.get('role') == 'admin' %}
+                            <td class="fw-semibold">{{ report.name }}</td>
+                        {% endif %}
+
+                        <!-- Category -->
+                        <td>
+                            <span class="badge bg-light text-primary px-3 py-2">
+                                {{ report.category }}
+                            </span>
+                        </td>
+
+                        <!-- Description -->
+                        <td style="max-width: 200px;">
+                            <span class="text-muted">
+                                {{ report.description[:80] }}{% if report.description|length > 80 %}...{% endif %}
+                            </span>
+                        </td>
+
+                        <!-- Attachment -->
+                        <td>
+                            {% if report.attachment %}
+                                <a href="{{ url_for('static', filename='uploads/' ~ report.attachment) }}" 
+                                   target="_blank" class="btn btn-sm btn-outline-primary">
+                                   View
+                                </a>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Date -->
+                        <td>
+                            <small class="text-muted">{{ report.date_reported }}</small>
+                        </td>
+
+                        <!-- Status -->
+                        <td>
+                            {% if session.get('role') == 'admin' %}
+                                <form method="post" action="{{ url_for('update_status', report_id=report.report_id) }}">
+                                    <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                        <option value="Pending" {% if report.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                        <option value="Reviewed" {% if report.status == 'Reviewed' %}selected{% endif %}>Reviewed</option>
+                                        <option value="Resolved" {% if report.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                                    </select>
+                                </form>
+                            {% else %}
+                                <span class="badge 
+                                    {% if report.status == 'Pending' %}bg-warning text-dark
+                                    {% elif report.status == 'Reviewed' %}bg-info text-dark
+                                    {% elif report.status == 'Resolved' %}bg-success
+                                    {% endif %}">
+                                    {{ report.status }}
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Delete -->
+                        <td>
+                            <a href="{{ url_for('delete_report', report_id=report.report_id) }}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Delete this report?')">
+                               Delete
+                            </a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+    {% else %}
+        <p class="text-center text-muted">No reports submitted yet.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

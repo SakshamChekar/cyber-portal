@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Report Incident{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-7">
+
+        <div class="card p-4 shadow-sm">
+
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h3 class="fw-bold">Report Cyber Incident</h3>
+                <p class="text-muted">
+                    Help us take action by reporting suspicious activity
+                </p>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="alert">
+                  {% for message in messages %}
+                    <p class="m-0">{{ message }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            <!-- Form -->
+            <form method="POST" action="{{ url_for('report') }}" enctype="multipart/form-data">
+
+                <!-- Category -->
+                <div class="mb-3">
+                    <label for="category" class="form-label fw-semibold">Incident Category</label>
+                    <select class="form-select" name="category" id="category" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Phishing">Phishing</option>
+                        <option value="Fraud">Fraud</option>
+                        <option value="Cyber Bullying">Cyber Bullying</option>
+                        <option value="Malware">Malware</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="description" class="form-label fw-semibold">Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="5"
+                              placeholder="Describe what happened..." required></textarea>
+                </div>
+
+                <!-- File Upload -->
+                <div class="mb-4">
+                    <label for="attachment" class="form-label fw-semibold">Attachment (optional)</label>
+                    <input type="file" class="form-control" name="attachment" id="attachment">
+                    <small class="text-muted">Upload screenshot or proof if available</small>
+                </div>
+
+                <!-- Buttons -->
+                <button type="submit" class="btn btn-danger w-100">
+                    Submit Report
+                </button>
+
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('my_reports') }}" class="text-decoration-none fw-semibold">
+                        View My Reports →
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

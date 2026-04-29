@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Reports{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold mb-1">Admin Reports</h3>
+      <p class="text-muted mb-0">Manage and review all submitted reports</p>
+    </div>
+  </div>
+
+  <!-- Flash -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="alert">
+        {% for message in messages %}
+          <p class="m-0">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% if reports %}
+  <div class="card p-3">
+
+    <div class="table-responsive">
+      <table class="table align-middle">
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Attachment</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for report in reports %}
+          <tr>
+
+            <td class="fw-semibold">#{{ report.report_id }}</td>
+
+            <td>
+              <div class="fw-semibold">{{ report.name }}</div>
+              <small class="text-muted">{{ report.email }}</small>
+            </td>
+
+            <!-- Category Badge -->
+            <td>
+              <span class="badge bg-light text-primary px-3 py-2">
+                {{ report.category }}
+              </span>
+            </td>
+
+            <!-- Description -->
+            <td style="max-width: 200px;">
+              <span class="text-muted">
+                {{ report.description[:80] }}{% if report.description|length > 80 %}...{% endif %}
+              </span>
+            </td>
+
+            <!-- Attachment -->
+            <td>
+              {% if report.attachment %}
+                <a href="{{ url_for('static', filename='uploads/' ~ report.attachment) }}" 
+                   target="_blank" class="btn btn-sm btn-outline-primary">
+                   View
+                </a>
+              {% else %}
+                <span class="text-muted">-</span>
+              {% endif %}
+            </td>
+
+            <!-- Date -->
+            <td>
+              <small class="text-muted">{{ report.date_reported }}</small>
+            </td>
+
+            <!-- Status -->
+            <td>
+              <form method="POST" action="{{ url_for('update_status', report_id=report.report_id) }}">
+                <select class="form-select form-select-sm" name="status" onchange="this.form.submit()">
+                  <option value="Pending" {% if report.status == 'Pending' %}selected{% endif %}>Pending</option>
+                  <option value="Reviewed" {% if report.status == 'Reviewed' %}selected{% endif %}>Reviewed</option>
+                  <option value="Resolved" {% if report.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                </select>
+              </form>
+            </td>
+
+            <!-- Action -->
+            <td>
+              <form method="POST" action="{{ url_for('delete_report', report_id=report.report_id) }}"
+                    onsubmit="return confirm('Delete this report?');">
+                <button type="submit" class="btn btn-sm btn-danger">
+                  Delete
+                </button>
+              </form>
+            </td>
+
+          </tr>
+        {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
+
+  </div>
+
+  {% else %}
+    <p class="text-center text-muted">No reports submitted yet.</p>
+  {% endif %}
+
+</div>
+
+{% endblock %}

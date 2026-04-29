@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Awareness{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+
+    <!-- Heading -->
+    <h2 class="text-center fw-bold mb-4">Cyber Security Awareness</h2>
+    <p class="text-center text-muted mb-5">
+        Stay informed about cyber threats and learn how to protect yourself.
+    </p>
+
+    <!-- Admin Button -->
+    {% if session.get('role') == 'admin' %}
+        <div class="text-end mb-4">
+            <a href="{{ url_for('add_awareness') }}" class="btn btn-primary">
+                + Add Awareness Post
+            </a>
+        </div>
+    {% endif %}
+
+    {% if awareness_posts %}
+        <div class="row g-4">
+
+            {% for post in awareness_posts %}
+            <div class="col-md-6">
+
+                <div class="card awareness-card p-4 h-100">
+
+                    <!-- Category + Icon -->
+                    <div class="d-flex align-items-center gap-2 mb-3">
+
+                        {% if post.category.lower() == 'phishing' %}
+                            <i class="bi bi-envelope-exclamation text-danger fs-4"></i>
+
+                        {% elif post.category.lower() == 'fraud' %}
+                            <i class="bi bi-currency-dollar text-success fs-4"></i>
+
+                        {% elif post.category.lower() == 'malware' %}
+                            <i class="bi bi-bug text-warning fs-4"></i>
+
+                        {% elif post.category.lower() == 'cyber bullying' %}
+                            <i class="bi bi-person-x text-primary fs-4"></i>
+
+                        {% else %}
+                            <i class="bi bi-shield-lock text-secondary fs-4"></i>
+                        {% endif %}
+
+                        <span class="badge px-3 py-2">
+                            {{ post.category }}
+                        </span>
+
+                    </div>
+
+                    <!-- Title -->
+                    <h5 class="fw-semibold">{{ post.title }}</h5>
+
+                    <!-- Content -->
+                    <p class="text-muted mt-2">
+                        {{ post.content }}
+                    </p>
+
+                    <!-- Footer -->
+                    <div class="mt-auto">
+                        <small class="text-muted">
+                            📅 {{ post.date_posted }}
+                        </small>
+                    </div>
+
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+        <p class="text-center text-muted">No awareness posts available yet.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

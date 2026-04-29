@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Awareness{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+
+        <div class="card p-4 shadow-sm">
+
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h3 class="fw-bold">Create Awareness Post</h3>
+                <p class="text-muted">Share knowledge to help users stay safe online</p>
+            </div>
+
+            <form method="POST">
+
+                <!-- Title -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="Enter post title" required>
+                </div>
+
+                <!-- Category -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Category</label>
+                    <input type="text" name="category" class="form-control" placeholder="e.g. Phishing, Fraud" required>
+                </div>
+
+                <!-- Content -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Content</label>
+                    <textarea name="content" class="form-control" rows="5" placeholder="Write awareness content..." required></textarea>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex gap-3">
+                    <button type="submit" class="btn btn-primary w-100">
+                        Publish Post
+                    </button>
+
+                    <a href="{{ url_for('awareness') }}" class="btn btn-outline-secondary w-100">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

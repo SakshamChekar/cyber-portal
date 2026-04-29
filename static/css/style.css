@@ -1,0 +1,251 @@
+/* =========================
+   🌈 GLOBAL THEME
+========================= */
+body {
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  color: #1e293b;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+/* =========================
+   🧭 NAVBAR
+========================= */
+.navbar {
+  background: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: #6366f1 !important;
+}
+
+.nav-link {
+  color: #475569 !important;
+}
+
+.nav-link:hover {
+  color: #6366f1 !important;
+}
+
+.active-nav {
+  color: #6366f1 !important;
+  font-weight: 600;
+  position: relative;
+}
+
+.active-nav::after {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 2px;
+  bottom: -4px;
+  left: 20%;
+  background: #6366f1;
+  border-radius: 10px;
+}
+
+.navbar .btn {
+  border-radius: 10px;
+}
+
+/* =========================
+   📦 CARDS
+========================= */
+.card {
+  border: none;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+  backdrop-filter: blur(5px);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   🔘 BUTTONS
+========================= */
+.btn {
+  border-radius: 12px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+  border: none;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #22c55e, #4ade80);
+  border: none;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  border: none;
+}
+
+/* =========================
+   📝 FORMS
+========================= */
+.form-label {
+  font-weight: 500;
+}
+
+.form-control,
+.form-select {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 10px;
+}
+
+.form-control:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
+}
+
+textarea.form-control {
+  resize: none;
+}
+
+.card input::placeholder,
+.card textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* =========================
+   📊 TABLES
+========================= */
+.table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead {
+  background: #f1f5f9;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* =========================
+   🎯 HERO TEXT
+========================= */
+.display-4 {
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* =========================
+   🧠 AWARENESS CARDS
+========================= */
+.awareness-card {
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  position: relative;
+  overflow: hidden;
+}
+
+.awareness-card::before {
+  content: "";
+  height: 5px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  background: linear-gradient(90deg, #6366f1, #3b82f6, #22c55e);
+}
+
+.awareness-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(99,102,241,0.15);
+}
+
+.awareness-card .badge {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.awareness-card i {
+  background: rgba(99,102,241,0.1);
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.awareness-card p {
+  line-height: 1.5;
+}
+
+/* =========================
+   📞 CONTACT
+========================= */
+.contact-icon {
+  font-size: 20px;
+  background: rgba(99,102,241,0.1);
+  padding: 10px;
+  border-radius: 10px;
+  margin-right: 12px;
+  color: #6366f1;
+}
+
+.social-icon {
+  font-size: 18px;
+  color: #64748b;
+}
+
+.social-icon:hover {
+  color: #6366f1;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   🏠 HOME FEATURES
+========================= */
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+.feature-icon {
+  font-size: 40px;
+  background: rgba(99,102,241,0.1);
+  padding: 12px;
+  border: 12px;
+  border-radius: 12px;
+}
+
+/* =========================
+   🔔 ALERT
+========================= */
+.alert p {
+  margin-bottom: 0;
+}
+
+/* =========================
+   🧾 FOOTER
+========================= */
+footer {
+  background: white;
+  border-top: 1px solid #e2e8f0;
+}
+
+.footer-icon {
+  color: #64748b;
+}
+
+.footer-icon:hover {
+  color: #6366f1;
+}
