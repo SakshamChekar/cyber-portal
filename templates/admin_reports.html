@@ -7,6 +7,7 @@
 <div class="container my-5">
 
   <!-- Header -->
+
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h3 class="fw-bold mb-1">Admin Reports</h3>
@@ -14,112 +15,202 @@
     </div>
   </div>
 
-  <!-- Flash -->
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <div class="alert">
-        {% for message in messages %}
-          <p class="m-0">{{ message }}</p>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
+  <!-- Flash Messages -->
 
-  {% if reports %}
+{% with messages = get_flashed_messages() %}
+{% if messages %} <div class="alert">
+{% for message in messages %} <p class="m-0">{{ message }}</p>
+{% endfor %} </div>
+{% endif %}
+{% endwith %}
+
+  <!-- Dashboard Card -->
+
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card text-center p-3 shadow-sm">
+        <h6 class="text-muted mb-2">Total Reports</h6>
+        <h3 class="fw-bold text-primary">{{ reports|length }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search + Filter -->
+
+  <form method="GET" class="row g-3 mb-4">
+
+
+<div class="col-md-5">
+  <input
+    type="text"
+    name="search"
+    class="form-control"
+    placeholder="Search by user, email or category"
+    value="{{ request.args.get('search', '') }}">
+</div>
+
+<div class="col-md-3">
+  <select name="status" class="form-select">
+
+    <option value="">All Status</option>
+
+    <option value="Pending"
+      {% if request.args.get('status') == 'Pending' %}
+      selected
+      {% endif %}>
+      Pending
+    </option>
+
+    <option value="Reviewed"
+      {% if request.args.get('status') == 'Reviewed' %}
+      selected
+      {% endif %}>
+      Reviewed
+    </option>
+
+    <option value="Resolved"
+      {% if request.args.get('status') == 'Resolved' %}
+      selected
+      {% endif %}>
+      Resolved
+    </option>
+
+  </select>
+</div>
+
+<div class="col-md-2">
+  <button type="submit" class="btn btn-primary w-100">
+    Search
+  </button>
+</div>
+
+<div class="col-md-2">
+  <a href="{{ url_for('admin_reports') }}"
+     class="btn btn-secondary w-100">
+    Reset
+  </a>
+</div>
+
+
+  </form>
+
+{% if reports %}
+
   <div class="card p-3">
 
-    <div class="table-responsive">
-      <table class="table align-middle">
 
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>User</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Attachment</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+<div class="table-responsive">
+  <table class="table align-middle">
 
-        <tbody>
-        {% for report in reports %}
-          <tr>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Attachment</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
 
-            <td class="fw-semibold">#{{ report.report_id }}</td>
+    <tbody>
+    {% for report in reports %}
+      <tr>
 
-            <td>
-              <div class="fw-semibold">{{ report.name }}</div>
-              <small class="text-muted">{{ report.email }}</small>
-            </td>
+        <td class="fw-semibold">#{{ report.report_id }}</td>
 
-            <!-- Category Badge -->
-            <td>
-              <span class="badge bg-light text-primary px-3 py-2">
-                {{ report.category }}
-              </span>
-            </td>
+        <td>
+          <div class="fw-semibold">{{ report.name }}</div>
+          <small class="text-muted">{{ report.email }}</small>
+        </td>
 
-            <!-- Description -->
-            <td style="max-width: 200px;">
-              <span class="text-muted">
-                {{ report.description[:80] }}{% if report.description|length > 80 %}...{% endif %}
-              </span>
-            </td>
+        <td>
+          <span class="badge bg-light text-primary px-3 py-2">
+            {{ report.category }}
+          </span>
+        </td>
 
-            <!-- Attachment -->
-            <td>
-              {% if report.attachment %}
-                <a href="{{ url_for('static', filename='uploads/' ~ report.attachment) }}" 
-                   target="_blank" class="btn btn-sm btn-outline-primary">
-                   View
-                </a>
-              {% else %}
-                <span class="text-muted">-</span>
-              {% endif %}
-            </td>
+        <td style="max-width: 250px;">
+          <span class="text-muted">
+            {{ report.description[:80] }}
+            {% if report.description|length > 80 %}...{% endif %}
+          </span>
+        </td>
 
-            <!-- Date -->
-            <td>
-              <small class="text-muted">{{ report.date_reported }}</small>
-            </td>
+        <td>
+          {% if report.attachment %}
+            <a href="{{ url_for('static', filename='uploads/' ~ report.attachment) }}"
+               target="_blank"
+               class="btn btn-sm btn-outline-primary">
+               View
+            </a>
+          {% else %}
+            <span class="text-muted">-</span>
+          {% endif %}
+        </td>
 
-            <!-- Status -->
-            <td>
-              <form method="POST" action="{{ url_for('update_status', report_id=report.report_id) }}">
-                <select class="form-select form-select-sm" name="status" onchange="this.form.submit()">
-                  <option value="Pending" {% if report.status == 'Pending' %}selected{% endif %}>Pending</option>
-                  <option value="Reviewed" {% if report.status == 'Reviewed' %}selected{% endif %}>Reviewed</option>
-                  <option value="Resolved" {% if report.status == 'Resolved' %}selected{% endif %}>Resolved</option>
-                </select>
-              </form>
-            </td>
+        <td>
+          <small class="text-muted">
+            {{ report.date_reported }}
+          </small>
+        </td>
 
-            <!-- Action -->
-            <td>
-              <form method="POST" action="{{ url_for('delete_report', report_id=report.report_id) }}"
-                    onsubmit="return confirm('Delete this report?');">
-                <button type="submit" class="btn btn-sm btn-danger">
-                  Delete
-                </button>
-              </form>
-            </td>
+        <td>
+          <form method="POST"
+                action="{{ url_for('update_status', report_id=report.report_id) }}">
+            <select class="form-select form-select-sm"
+                    name="status"
+                    onchange="this.form.submit()">
 
-          </tr>
-        {% endfor %}
-        </tbody>
+              <option value="Pending"
+                {% if report.status == 'Pending' %}selected{% endif %}>
+                Pending
+              </option>
 
-      </table>
-    </div>
+              <option value="Reviewed"
+                {% if report.status == 'Reviewed' %}selected{% endif %}>
+                Reviewed
+              </option>
+
+              <option value="Resolved"
+                {% if report.status == 'Resolved' %}selected{% endif %}>
+                Resolved
+              </option>
+
+            </select>
+          </form>
+        </td>
+
+        <td>
+          <form method="POST"
+                action="{{ url_for('delete_report', report_id=report.report_id) }}"
+                onsubmit="return confirm('Delete this report?');">
+
+            <button type="submit"
+                    class="btn btn-sm btn-danger">
+              Delete
+            </button>
+
+          </form>
+        </td>
+
+      </tr>
+    {% endfor %}
+    </tbody>
+
+  </table>
+</div>
+
 
   </div>
 
-  {% else %}
-    <p class="text-center text-muted">No reports submitted yet.</p>
-  {% endif %}
+{% else %} <p class="text-center text-muted">
+No reports submitted yet. </p>
+{% endif %}
 
 </div>
 
 {% endblock %}
+

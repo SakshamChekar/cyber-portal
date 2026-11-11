@@ -217,23 +217,61 @@ def admin_reports():
         flash("Access denied.")
         return redirect(url_for('login'))
 
+    # Search & Filter
+    search = request.args.get('search', '').strip()
+    status = request.args.get('status', '').strip()
+
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("""
-        SELECT r.report_id, r.category, r.description, r.attachment, 
-               r.date_reported, r.status, u.name, u.email
+    query = """
+        SELECT r.report_id,
+               r.category,
+               r.description,
+               r.attachment,
+               r.date_reported,
+               r.status,
+               u.name,
+               u.email
         FROM reports r
         JOIN users u ON r.user_id = u.id
-        ORDER BY r.date_reported DESC
-    """)
+        WHERE 1=1
+    """
 
+    params = []
+
+    # Search by name, email or category
+    if search:
+        query += """
+            AND (
+                u.name LIKE %s
+                OR u.email LIKE %s
+                OR r.category LIKE %s
+            )
+        """
+        params.extend([
+            f"%{search}%",
+            f"%{search}%",
+            f"%{search}%"
+        ])
+
+    # Filter by status
+    if status:
+        query += " AND r.status = %s "
+        params.append(status)
+
+    query += " ORDER BY r.date_reported DESC"
+
+    cursor.execute(query, params)
     reports = cursor.fetchall()
 
     cursor.close()
     conn.close()
 
-    return render_template('admin_reports.html', reports=reports)
+    return render_template(
+        'admin_reports.html',
+        reports=reports)
+    
 
 
 # ---------- Update Status ----------
